@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="slides-format" content="viewport" />
+  <title>Planejamento Tributário para Médicos PJ - MedHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-bg: #020617;
+      --color-bg-deep: #020617;
+      --color-surface: #020617;
+      --color-text: #f9fafb;
+      --color-text-secondary: #e5e7eb;
+      --color-text-muted: #9ca3af;
+      --color-accent-1: #fbbf24;
+      --color-accent-2: #facc15;
+      --color-accent-3: #22c55e;
+      --color-glass-bg: rgba(15,23,42,0.9);
+      --color-glass-border: rgba(55,65,81,0.9);
+      --color-vignette: rgba(0,0,0,0.8);
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Manrope', sans-serif;
+    }
+  </style>
+  <style>
+    :root { --color-bg: #020617; --color-text: #f9fafb; --glow-color-rgb: 251,191,36; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { background: #020617; margin: 0; }
+    body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+    .deck { width: 100vw; height: 100vh; position: relative; background:#020617; }
+    .slide {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at top, rgba(251,191,36,0.08), transparent 55%), #020617;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.96);
+      transition: opacity .6s ease, transform .6s ease;
+      pointer-events: none; overflow: hidden;
+    }
+    .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+    .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1180px; padding: clamp(1.5rem, 3vw, 3rem); }
+    .nav-controls {
+      position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 14px; z-index: 100;
+      background: rgba(15,23,42,0.96); backdrop-filter: blur(16px);
+      padding: 10px 22px; border-radius: 999px; border: 1px solid rgba(55,65,81,0.9);
+    }
+    .nav-btn {
+      width: 38px; height: 38px; border: none;
+      background: rgba(15,23,42,1); color: #facc15;
+      border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+    }
+    .slide-dots { display: flex; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(148,163,184,.6); cursor: pointer; transition: .2s; }
+    .dot.active { background: #facc15; transform: scale(1.25); }
+    .slide-counter { font-size: .8rem; color: #9ca3af; min-width: 52px; text-align: center; }
+    .reveal { opacity: 0; transform: translateY(18px); }
+    .card {
+      background: rgba(15,23,42,0.98);
+      border: 1px solid rgba(31,41,55,1);
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+    }
+    .gold { color: #facc15; }
+    .mint { color: #22c55e; }
+    .bigstat { font-size: clamp(2.6rem, 5vw, 4.4rem); line-height: .9; font-weight: 900; }
+    .smallcaps { text-transform: uppercase; letter-spacing: .18em; font-size: .78rem; color: #9ca3af; }
+    .bar-track { height: 22px; border-radius: 999px; background: #020617; overflow: hidden; border: 1px solid #111827; }
+    .bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #facc15, #22c55e); width: 0; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid rgba(31,41,55,1); text-align: left; }
+    th { color:#e5e7eb; font-weight:600; }
+    .pill {
+      display:inline-block; padding:8px 14px; border-radius:999px;
+      background:rgba(15,23,42,1); color:#facc15; border:1px solid rgba(250,204,21,.7);
+      font-size:.8rem;
+    }
+    .logo-box {
+      display:inline-flex; align-items:center; gap:14px;
+      padding:14px 22px; border-radius:20px;
+      background:rgba(15,23,42,0.98); border:1px solid rgba(31,41,55,1);
+      box-shadow:0 16px 40px rgba(0,0,0,0.85);
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration:.01ms !important; transition-duration:.2s !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. Abertura -->
+  <section class="slide active" data-slide="1">
+    <div class="content text-center">
+      <div class="logo-box reveal mx-auto mb-6">
+        <div class="text-3xl">🏥</div>
+        <div class="text-left">
+          <div class="font-semibold text-lg">MedHub Group</div>
+          <div class="text-sm text-text-muted">Consultoria estratégica em saúde</div>
+        </div>
+      </div>
+      <h1 class="reveal font-display text-[clamp(3rem,6vw,5.4rem)] font-black tracking-tight bg-linear-to-r from-accent-1 via-accent-2 to-accent-3 bg-clip-text text-transparent mb-5">
+        Você está pagando imposto demais
+      </h1>
+      <p class="reveal text-[clamp(1rem,1.7vw,1.35rem)] text-text-secondary max-w-3xl mx-auto">
+        Esta apresentação existe por um motivo simples: mostrar quanto do seu faturamento está indo para o governo — e quanto pode virar dinheiro no seu bolso, todo mês, com a estrutura certa.
+      </p>
+      <div class="grid grid-cols-3 gap-5 mt-10">
+        <div class="card p-5 reveal">
+          <div class="smallcaps">O que você paga hoje</div>
+          <div class="bigstat gold">27,5%</div>
+          <div class="text-sm text-text-secondary mt-2">Como pessoa física, você pode estar entregando até R$ 27.500/mês em um faturamento de R$ 100 mil.</div>
+        </div>
+        <div class="card p-5 reveal">
+          <div class="smallcaps">O que pode pagar</div>
+          <div class="bigstat gold">9,8%</div>
+          <div class="text-sm text-text-secondary mt-2">Estruturando a PJ corretamente, essa carga cai de forma consistente e defensável.</div>
+        </div>
+        <div class="card p-5 reveal">
+          <div class="smallcaps">Dinheiro que volta</div>
+          <div class="bigstat mint">R$ 17,7 mil</div>
+          <div class="text-sm text-text-secondary mt-2">Por mês, no exemplo de R$ 100 mil. É isso que estamos discutindo aqui.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Dor -->
+  <section class="slide" data-slide="2">
+    <div class="content">
+      <div class="pill reveal mb-4">1 · O problema</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Hoje, você trabalha demais para o fisco</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-3">O que está acontecendo agora</div>
+          <ul class="space-y-3 text-lg text-text-secondary">
+            <li>• Seu imposto como pessoa física pode chegar a 27,5% sobre rendimentos elevados.</li>
+            <li>• Quanto mais você produz, mais sente que o dinheiro simplesmente desaparece na tributação.</li>
+            <li>• Com notas, PIX, bancos e cruzamento de dados, o risco de autuação só aumenta.</li>
+            <li>• Sem uma estrutura profissional, você paga mais imposto do que precisa — e ainda corre mais risco do que deveria.</li>
+          </ul>
+        </div>
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-3">O impacto direto no seu bolso</div>
+          <div class="bigstat gold mb-2">R$ 27.500</div>
+          <div class="text-lg text-text-secondary mb-5">é quanto pode estar indo para o governo todo mês, em um faturamento de R$ 100 mil como pessoa física.</div>
+          <div class="bar-track"><div class="bar-fill" data-width="95"></div></div>
+          <div class="flex justify-between text-sm mt-2 text-text-muted"><span>Você</span><span>Fisco</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Solução -->
+  <section class="slide" data-slide="3">
+    <div class="content">
+      <div class="pill reveal mb-4">2 · A solução</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Estrutura de PJ certa para você pagar menos imposto</h2>
+      <div class="card p-6 reveal mb-6">
+        <table class="text-base">
+          <thead>
+            <tr><th>Modelo</th><th>Carga sobre R$ 100 mil</th><th>Quanto fica com você</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Pessoa física</td><td>27,5%</td><td>R$ 72.500</td></tr>
+            <tr><td>PJ lucro presumido</td><td>~9,8%</td><td>R$ 90.200</td></tr>
+            <tr>
+              <td class="font-semibold gold">Diferença todo mês</td>
+              <td class="font-semibold gold">17,7 pontos</td>
+              <td class="font-semibold gold">+R$ 17.700</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="reveal text-lg text-text-secondary max-w-3xl">
+        O trabalho da MedHub é simples de explicar: colocamos você no modelo certo, com a estrutura certa, para você parar de entregar essa diferença ao governo e passar a enxergar isso na sua conta.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. Economia no bolso -->
+  <section class="slide" data-slide="4">
+    <div class="content">
+      <div class="pill reveal mb-4">3 · Dinheiro de volta</div>
+      <h2 class="font-display text-5xl mb-7 reveal">Quanto isso representa em dinheiro de verdade</h2>
+      <div class="grid grid-cols-2 gap-7">
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-3">Comparação direta sobre R$ 100 mil/mês</div>
+          <div class="mt-6 space-y-5 text-lg">
+            <div>
+              <div class="flex justify-between mb-2"><span>Pessoa física</span><span>27,5%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="100"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span>PJ estruturada</span><span>9,8%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="36"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-2"><span>Economia mensal</span><span>17,7%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="64"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card p-7 reveal flex flex-col justify-center">
+          <div class="smallcaps mb-3">Traduzindo em objetivos</div>
+          <div class="bigstat mint">R$ 212.400</div>
+          <p class="text-xl text-text-secondary mt-3">por ano, no exemplo de R$ 100 mil/mês. Em poucos anos, isso compra um imóvel, monta uma carteira de investimentos ou antecipa sua independência.</p>
+          <p class="text-lg text-text-secondary mt-4">O ponto é simples: esse dinheiro já está saindo do seu trabalho. A questão é se ele vai para o governo ou para o seu patrimônio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Upside -->
+  <section class="slide" data-slide="5">
+    <div class="content">
+      <div class="pill reveal mb-4">4 · Upside adicional</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Em alguns casos, dá para ir além do 9,8%</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-4">Quando a estrutura permite economizar ainda mais</div>
+          <p class="text-lg text-text-secondary">Dependendo do tipo de serviço, enquadramento e local de atuação, existe espaço para tratamento fiscal ainda mais vantajoso, desde que os requisitos legais sejam respeitados.</p>
+          <p class="text-lg text-text-secondary mt-4">Aqui entra a diferença entre "abrir uma empresa qualquer" e ter um desenho tributário pensado para o seu tipo de medicina e de faturamento.</p>
+        </div>
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-4">Como usamos isso a seu favor</div>
+          <ul class="space-y-3 text-lg text-text-secondary">
+            <li>• Analisamos sua forma de atuação, contratos e locais de atendimento.</li>
+            <li>• Buscamos o melhor enquadramento possível dentro da lei.</li>
+            <li>• Ajustamos contrato social e operação para sustentar essa posição.</li>
+            <li>• Tudo com documentação e lastro, não com "jeitinho".</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Cooperativa -->
+  <section class="slide" data-slide="6">
+    <div class="content">
+      <div class="pill reveal mb-4">5 · Armadilha comum</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Cooperativa: você trabalha como PJ e paga como PF</h2>
+      <div class="grid grid-cols-3 gap-5">
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-3">⚠️</div>
+          <div class="font-bold text-xl mb-2">Modelo enganoso</div>
+          <div class="text-text-secondary">Na cooperativa, você muitas vezes emite e recebe como pessoa física. Na prática, perde quase toda a vantagem tributária da PJ.</div>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-3">💸</div>
+          <div class="font-bold text-xl mb-2">Dinheiro perdido</div>
+          <div class="text-text-secondary">Temos casos em que a diferença entre permanecer na cooperativa ou migrar para uma estrutura própria chega a dezenas de milhares de reais por mês.</div>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-3">🎯</div>
+          <div class="font-bold text-xl mb-2">Nossa proposta</div>
+          <div class="text-text-secondary">Mapear quanto você está, de fato, perdendo com o modelo atual e desenhar a rota para capturar essa diferença com segurança.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Despesas -->
+  <section class="slide" data-slide="7">
+    <div class="content">
+      <div class="pill reveal mb-4">6 · Estrutura profissional</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Transformando o caos de despesas em eficiência fiscal</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-4">O que passa a ser organizado</div>
+          <ul class="space-y-3 text-lg text-text-secondary">
+            <li>• Cartão corporativo para separar vida pessoal da PJ.</li>
+            <li>• Combustível, deslocamentos e viagens diretamente ligados à sua atuação.</li>
+            <li>• Refeições de negócio, eventos científicos e formação.</li>
+            <li>• Seguros e planos de saúde dentro de uma política formal, documentada.</li>
+          </ul>
+        </div>
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-4">O que não entra — e te protege</div>
+          <ul class="space-y-3 text-lg text-text-secondary">
+            <li>• Supermercado, escola de filhos e gastos claramente pessoais.</li>
+            <li>• Movimentações confusas entre contas pessoais e da empresa.</li>
+            <li>• "Despesas" sem comprovante ou sem vínculo com a atividade.</li>
+            <li>• Tudo amarrado em contrato social e política interna, para reduzir risco em eventual fiscalização.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Reforma -->
+  <section class="slide" data-slide="8">
+    <div class="content">
+      <div class="pill reveal mb-4">7 · Cenário 2027+</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Reforma tributária: quem estiver desorganizado vai pagar a conta</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-7 reveal">
+          <p class="text-lg text-text-secondary">A lei complementar que institui CBS e IBS consolida a lógica de tributação sobre bens e serviços e traz novos mecanismos de controle, cruzamento de dados e split payment para recolhimento automático.</p>
+          <p class="text-lg text-text-secondary mt-4">Isso significa que a margem para improviso e informalidade tende a desaparecer. Quem estiver correto vai dormir tranquilo, quem não estiver será mais facilmente identificado.</p>
+        </div>
+        <div class="card p-7 reveal">
+          <p class="text-lg text-text-secondary">Para o setor de saúde, o desenho de alíquotas diferenciadas e reduções setoriais exige leitura técnica. Traduzindo: ou você tem alguém olhando isso por você, ou corre o risco de pagar mais do que precisa.</p>
+          <p class="text-lg text-text-secondary mt-4">A estratégia não é "esperar a reforma passar", é sair na frente com uma estrutura preparada para o que já está na lei.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Modelo MedHub -->
+  <section class="slide" data-slide="9">
+    <div class="content">
+      <div class="pill reveal mb-4">8 · Como a MedHub ganha junto com você</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Nosso modelo: quanto mais valor você captura, mais faz sentido ficar com a gente</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="card p-7 reveal">
+          <p class="text-lg text-text-secondary">A MedHub é uma consultoria focada em resultados concretos para médicos, clínicas e centros de saúde, com atuação já consolidada em vários estados.</p>
+          <p class="text-lg text-text-secondary mt-4">Não vendemos "serviço contábil"; vendemos aumento de caixa e proteção de patrimônio para quem vive da medicina.</p>
+        </div>
+        <div class="card p-7 reveal">
+          <div class="smallcaps mb-4">Projeção de carteira com foco em recorrência</div>
+          <div class="grid grid-cols-3 gap-4 text-center mb-5">
+            <div class="rounded-2xl bg-slate-950 p-4 border border-slate-800"><div class="text-3xl font-extrabold gold">180</div><div class="text-sm text-text-muted">médicos</div></div>
+            <div class="rounded-2xl bg-slate-950 p-4 border border-slate-800"><div class="text-3xl font-extrabold gold">R$ 5 mil</div><div class="text-sm text-text-muted">por mês</div></div>
+            <div class="rounded-2xl bg-slate-950 p-4 border border-slate-800"><div class="text-3xl font-extrabold mint">R$ 900 mil</div><div class="text-sm text-text-muted">em recorrência</div></div>
+          </div>
+          <p class="text-lg text-text-secondary">Isso só se sustenta porque, para cada médico, o ganho líquido supera com folga o valor do honorário.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Roteiro -->
+  <section class="slide" data-slide="10">
+    <div class="content">
+      <div class="pill reveal mb-4">9 · Hoje vs. depois</div>
+      <h2 class="font-display text-5xl mb-6 reveal">Roteiro para você decidir agora, não daqui a um ano</h2>
+      <div class="grid grid-cols-4 gap-5">
+        <div class="card p-5 reveal"><div class="text-3xl mb-3">1</div><div class="font-bold mb-2">Número na mesa</div><div class="text-sm text-text-secondary">Calculamos, com seus dados, quanto você está deixando na mão do governo todos os meses.</div></div>
+        <div class="card p-5 reveal"><div class="text-3xl mb-3">2</div><div class="font-bold mb-2">Cenário com PJ</div><div class="text-sm text-text-secondary">Mostramos quanto seria a carga já com a estrutura proposta e qual é a economia projetada.</div></div>
+        <div class="card p-5 reveal"><div class="text-3xl mb-3">3</div><div class="font-bold mb-2">Implementação completa</div><div class="text-sm text-text-secondary">Abrimos ou ajustamos sua PJ, contrato social, políticas internas e rotina fiscal.</div></div>
+        <div class="card p-5 reveal"><div class="text-3xl mb-3">4</div><div class="font-bold mb-2">Acompanhamento</div><div class="text-sm text-text-secondary">Seguimos junto no dia a dia para manter tudo dentro da lei e otimizado ao longo do tempo.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. CTA -->
+  <section class="slide" data-slide="11">
+    <div class="content text-center">
+      <div class="text-[96px] reveal mb-4">💼</div>
+      <h2 class="font-display text-[clamp(2.8rem,6vw,5rem)] reveal bg-linear-to-r from-accent-1 via-accent-2 to-accent-3 bg-clip-text text-transparent">Próximo passo: colocar mais dinheiro no seu bolso, com segurança</h2>
+      <p class="reveal text-xl text-text-secondary max-w-3xl mx-auto mt-5">Se os números fizerem sentido para você, nosso trabalho é cuidar de toda a parte chata — estrutura, contratos, tributos, regras — para que você foque na medicina e veja, mês a mês, a diferença na sua conta.</p>
+      <p class="reveal text-lg text-text-secondary max-w-2xl mx-auto mt-4">Começamos com um diagnóstico rápido. A partir daí, ou faz sentido para você, ou seguimos como bons conhecidos. Simples assim.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="slide-counter" id="counter">1 / 11</span>
+</div>
+
+<script>
+let current = 1;
+const total = document.querySelectorAll('.slide').length;
+const dotsContainer = document.getElementById('dots');
+const counter = document.getElementById('counter');
+for (let i = 1; i <= total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 1 ? ' active' : '');
+  dot.onclick = () => goToSlide(i);
+  dotsContainer.appendChild(dot);
+}
+function goToSlide(n) {
+  document.querySelector('.slide.active')?.classList.remove('active');
+  const next = document.querySelector(`.slide[data-slide="${n}"]`);
+  if (next) { next.classList.add('active'); animateSlide(next); }
+  current = n; updateNav();
+}
+function changeSlide(dir){ let next = current + dir; if(next < 1) next = total; if(next > total) next = 1; goToSlide(next); }
+function updateNav(){ document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i+1===current)); counter.textContent = `${current} / ${total}`; }
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight' || e.key===' '){ e.preventDefault(); changeSlide(1); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); changeSlide(-1); }
+});
+let touchStartX = 0;
+document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if(Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+});
+function animateSlide(slide) {
+  slide.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.offsetHeight;
+    const delay = i * 0.08;
+    el.style.transition = `opacity 0.4s ease ${delay}s, transform 0.4s ease ${delay}s`;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+  slide.querySelectorAll('.bar-fill').forEach((bar, i) => {
+    bar.style.width = '0%';
+    bar.style.transition = `width .7s ease ${i * 0.06}s`;
+    bar.offsetHeight;
+    bar.style.width = (bar.dataset.width || 0) + '%';
+  });
+}
+animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>
